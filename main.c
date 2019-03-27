@@ -2,7 +2,6 @@
 //  main.c
 //  Vegenia_Code
 //  Created by 翔誉 on 2019/3/1.
-//  确定秘钥字的部分是我写的，其余部分是队友把c文件给我，我经适当改写和添加注释放进去的。
 #include <stdio.h>
 #include <memory.h>
 #include <string.h>
@@ -62,18 +61,24 @@ int main()
         for (int j = 0; j <= 25; j++)
             prob[i][j] = (double)letter[i][j] / (double)length[i];
     
+    FILE *nq=fopen("/Users/Huyizhen/Desktop/list.txt","w");
+    if(nq==NULL)
+        printf("create file failed\n");
     for (int i = 0; i <number; i++)//计算重合互指数
         for (int k = 0; k <= 25; k++)
         {
+            fprintf(nq,"i=%d  k=%d  ",i,k);
             index2 = 0;
             for (int j = 0; j <= 25; j++)
                 index2 += prob[0][(j + k) % 26] * prob[i][j]
                 ;
+            fprintf(nq,"%5.4f ",index2);
             if ((index2 > 0.055) && index2<0.075 )//最好的情况是i=1，2……number-1的情况各有1个输出，若不然，再优化判别条件
             {
                 printf("第%d位和第一位相对位移为%d的指数是：%f\n", i + 1, k, index2);
                 k0[i] = k;
             }
+            fprintf(nq,"\n");
             
         }
     
